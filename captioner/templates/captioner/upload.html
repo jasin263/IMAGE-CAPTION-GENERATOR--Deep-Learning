@@ -1,0 +1,181 @@
+{% extends 'captioner/base.html' %}
+
+{% block title %}Upload Image{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1 class="hero-title">Image Caption Generator</h1>
+    <p class="hero-subtitle">Transform your images into meaningful descriptions using computer vision technology</p>
+</div>
+
+<div class="row justify-content-center mb-5">
+    <div class="col-md-4 fade-in-up">
+        <div class="feature-card">
+            <i class="fas fa-upload feature-icon"></i>
+            <h5>Easy Upload</h5>
+            <p>Simply upload your image and let the system do the rest</p>
+        </div>
+    </div>
+    <div class="col-md-4 fade-in-up">
+        <div class="feature-card">
+            <i class="fas fa-brain feature-icon"></i>
+            <h5>Smart Processing</h5>
+            <p>Powered by computer vision model for accurate captions</p>
+        </div>
+    </div>
+    <div class="col-md-4 fade-in-up">
+        <div class="feature-card">
+            <i class="fas fa-lightning-bolt feature-icon"></i>
+            <h5>Instant Results</h5>
+            <p>Get captions in seconds with our optimized processing</p>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card fade-in-up">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-cloud-upload-alt me-2"></i>Upload Your Image</h3>
+            </div>
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
+                    </div>
+                {% endif %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Model Selection -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-brain me-2"></i>{{ form.model_type.label }}
+                        </label>
+                        <div class="row justify-content-center">
+                            {% for radio in form.model_type %}
+                                <div class="col-md-6 mb-2">
+                                    <div class="card h-100 model-card" onclick="selectModel('{{ radio.choice_value }}')">
+                                        <div class="card-body text-center">
+                                            <div class="form-check">
+                                                {{ radio.tag }}
+                                                <label class="form-check-label fw-bold" for="{{ radio.id_for_label }}">
+                                                    {{ radio.choice_label }}
+                                                </label>
+                                            </div>
+                                            {% if radio.choice_value == 'pretrained' %}
+                                                <small class="text-muted">General-purpose model trained on diverse images</small>
+                                            {% else %}
+                                                <small class="text-muted">Your custom trained model (if available)</small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.model_type.errors %}
+                            <div class="text-danger mt-2">
+                                {% for error in form.model_type.errors %}
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text text-center">
+                            <i class="fas fa-info-circle me-1"></i>{{ form.model_type.help_text }}
+                        </div>
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="mb-4">
+                        <label for="{{ form.image.id_for_label }}" class="form-label">
+                            <i class="fas fa-image me-2"></i>{{ form.image.label }}
+                        </label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="{{ form.image.id_for_label }}" name="{{ form.image.name }}" accept="image/*" required>
+                            <label class="input-group-text" for="{{ form.image.id_for_label }}">
+                                <i class="fas fa-folder-open"></i>
+                            </label>
+                        </div>
+                        {% if form.image.errors %}
+                            <div class="text-danger mt-2">
+                                {% for error in form.image.errors %}
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>Supported formats: JPG, PNG, GIF, BMP, TIFF
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg" id="submit-btn">
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            <i class="fas fa-magic me-2"></i>Generate Caption
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const submitBtn = document.getElementById('submit-btn');
+    const fileInput = document.querySelector('input[type="file"]');
+
+    // File input styling
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            this.parentElement.classList.add('border-success');
+        }
+    });
+
+    form.addEventListener('submit', function(e) {
+        const file = fileInput.files[0];
+        if (!file) {
+            e.preventDefault();
+            alert('Please select an image file first.');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <i class="fas fa-cog fa-spin me-2"></i>Processing...';
+
+        // Add loading animation to card
+        const card = submitBtn.closest('.card');
+        card.style.transform = 'scale(0.98)';
+        card.style.opacity = '0.8';
+    });
+});
+
+// Model selection functionality
+function selectModel(modelValue) {
+    // Update radio button
+    const radio = document.querySelector(`input[name="model_type"][value="${modelValue}"]`);
+    if (radio) {
+        radio.checked = true;
+    }
+
+    // Update card styling
+    const cards = document.querySelectorAll('.model-card');
+    cards.forEach(card => {
+        card.classList.remove('border-primary', 'shadow');
+    });
+
+    // Highlight selected card
+    const selectedCard = document.querySelector(`input[name="model_type"][value="${modelValue}"]`).closest('.model-card');
+    if (selectedCard) {
+        selectedCard.classList.add('border-primary', 'shadow');
+    }
+}
+
+// Initialize model selection on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Select default model (pretrained)
+    selectModel('pretrained');
+});
+</script>
+{% endblock %}

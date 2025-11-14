@@ -1,0 +1,29 @@
+INFO 2025-11-13 21:34:14,378 autoreload 18872 5732 Watching for file changes with StatReloader
+INFO 2025-11-13 21:34:22,516 autoreload 18872 5732 E:\8TH SEM\New folder\IMAGE CAPTION GENERATOR MINI PROJECT\captioner\views.py changed, reloading.
+INFO 2025-11-13 21:34:23,896 autoreload 20100 23080 Watching for file changes with StatReloader
+INFO 2025-11-13 21:34:40,747 autoreload 20100 23080 E:\8TH SEM\New folder\IMAGE CAPTION GENERATOR MINI PROJECT\captioner\views.py changed, reloading.
+INFO 2025-11-13 21:34:42,119 autoreload 18040 11092 Watching for file changes with StatReloader
+INFO 2025-11-13 21:35:04,492 autoreload 18040 11092 E:\8TH SEM\New folder\IMAGE CAPTION GENERATOR MINI PROJECT\captioner\utils.py changed, reloading.
+INFO 2025-11-13 21:35:05,796 autoreload 23696 19408 Watching for file changes with StatReloader
+INFO 2025-11-13 21:35:15,096 autoreload 23696 19408 E:\8TH SEM\New folder\IMAGE CAPTION GENERATOR MINI PROJECT\captioner\utils.py changed, reloading.
+INFO 2025-11-13 21:35:16,269 autoreload 22540 22908 Watching for file changes with StatReloader
+INFO 2025-11-13 21:38:42,855 autoreload 3712 25524 Watching for file changes with StatReloader
+INFO 2025-11-13 21:38:48,896 basehttp 3712 17396 "GET / HTTP/1.1" 200 14593
+INFO 2025-11-13 21:38:55,161 views 3712 17396 Image upload started: 20250816_123658.jpg, size: 6354258 bytes, model: pretrained
+INFO 2025-11-13 21:38:55,161 utils 3712 17396 Loading pre-trained BLIP model
+INFO 2025-11-13 21:39:01,110 utils 3712 17396 Pre-trained BLIP model loaded successfully
+INFO 2025-11-13 21:39:01,111 views 3712 17396 Model loaded successfully: pretrained
+INFO 2025-11-13 21:39:01,121 utils 3712 17396 Starting caption generation for image: 20250816_123658_n9cCZCU.jpg
+INFO 2025-11-13 21:39:05,264 utils 3712 17396 Caption generated: 'a man standing in front of a tree'
+INFO 2025-11-13 21:39:05,266 views 3712 17396 Caption generated successfully: 'a man standing in front of a tree' for image 20250816_123658.jpg
+INFO 2025-11-13 21:39:05,290 views 3712 17396 Image upload and caption generation completed for 20250816_123658.jpg
+INFO 2025-11-13 21:39:05,329 basehttp 3712 17396 "POST / HTTP/1.1" 200 8483043
+INFO 2025-11-13 21:39:16,274 basehttp 3712 17396 "GET / HTTP/1.1" 200 14593
+INFO 2025-11-13 21:39:20,225 views 3712 17396 Image upload started: 20250816_123658.jpg, size: 6354258 bytes, model: custom
+INFO 2025-11-13 21:39:20,235 utils 3712 17396 Starting caption generation for image: 20250816_123658_Fhfsbce.jpg
+INFO 2025-11-13 21:39:24,703 utils 3712 17396 Caption generated: 'a man standing in front of a tree'
+INFO 2025-11-13 21:39:24,708 views 3712 17396 Caption generated successfully: 'a man standing in front of a tree' for image 20250816_123658.jpg
+INFO 2025-11-13 21:39:24,743 views 3712 17396 Image upload and caption generation completed for 20250816_123658.jpg
+INFO 2025-11-13 21:39:24,812 basehttp 3712 17396 "POST / HTTP/1.1" 200 8483039
+INFO 2025-11-13 21:39:27,384 basehttp 3712 17396 "GET / HTTP/1.1" 200 14593
+INFO 2025-11-13 21:51:19,759 autoreload 14388 21528 Watching for file changes with StatReloader
